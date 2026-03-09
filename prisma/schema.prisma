@@ -1,0 +1,170 @@
+// This is your Prisma schema file
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// User & Authentication
+model User {
+  id            String        @id @default(cuid())
+  email         String        @unique
+  password      String        // hashed with bcrypt
+  name          String
+  role          UserRole      @default(AUTHOR)
+  avatar        String?
+  bio           String?       @db.Text
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  posts         Post[]
+  contentPlans  ContentPlan[]
+}
+
+enum UserRole {
+  ADMIN
+  EDITOR
+  AUTHOR
+}
+
+// Blog Posts
+model Post {
+  id              String      @id @default(cuid())
+  title           String
+  slug            String      @unique
+  excerpt         String?     @db.Text
+  content         String      @db.Text // JSON from Tiptap
+  featuredImage   String?
+  status          PostStatus  @default(DRAFT)
+  publishedAt     DateTime?
+  seoTitle        String?
+  seoDescription  String?     @db.Text
+  keywords        String[]
+  viewCount       Int         @default(0)
+  authorId        String
+  author          User        @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  categories      Category[]
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+
+  @@index([slug])
+  @@index([status])
+  @@index([publishedAt])
+}
+
+enum PostStatus {
+  DRAFT
+  SCHEDULED
+  PUBLISHED
+  ARCHIVED
+}
+
+// Categories
+model Category {
+  id          String   @id @default(cuid())
+  name        String   @unique
+  slug        String   @unique
+  description String?  @db.Text
+  color       String?  // hex color for category badge
+  order       Int      @default(0)
+  posts       Post[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([slug])
+}
+
+// Newsletter Subscribers (simple collection for external tool integration)
+model NewsletterSubscriber {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  subscribedAt DateTime @default(now())
+
+  @@index([email])
+}
+
+// Newsletter Popup Settings
+model PopupSettings {
+  id                String          @id @default("singleton")
+  enabled           Boolean         @default(true)
+  title             String          @default("Subscribe to Our Newsletter")
+  description       String          @default("Get the latest real estate insights delivered to your inbox")
+  ctaText           String          @default("Subscribe")
+  frequency         PopupFrequency  @default(ONCE_PER_SESSION)
+  delaySeconds      Int             @default(5)
+  showAfterScroll   Int?            // percentage of page scroll (0-100)
+  backgroundColor   String          @default("#ffffff")
+  textColor         String          @default("#000000")
+  buttonColor       String          @default("#4695c4")
+  updatedAt         DateTime        @updatedAt
+}
+
+enum PopupFrequency {
+  EVERY_VISIT
+  ONCE_PER_SESSION
+  ONCE_PER_DAY
+  ONCE_PER_WEEK
+}
+
+// Theme Customization
+model ThemeSettings {
+  id                String   @id @default("singleton")
+  primaryColor      String   @default("#4695c4")
+  secondaryColor    String   @default("#b48e57")
+  backgroundColor   String   @default("#ffffff")
+  textColor         String   @default("#403d39")
+  headingColor      String   @default("#252422")
+  headingFont       String   @default("Frank Ruhl Libre")
+  bodyFont          String   @default("Muli")
+  logoUrl           String?
+  faviconUrl        String?
+  headerLayout      String   @default("default")
+  footerLayout      String   @default("default")
+  customCSS         String?  @db.Text
+  updatedAt         DateTime @updatedAt
+}
+
+// Content Planning
+model ContentPlan {
+  id              String        @id @default(cuid())
+  title           String
+  type            ContentType
+  platform        Platform[]
+  scheduledFor    DateTime
+  status          PlanStatus    @default(IDEA)
+  notes           String?       @db.Text
+  assignedToId    String
+  assignedTo      User          @relation(fields: [assignedToId], references: [id], onDelete: Cascade)
+  relatedPostId   String?
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  @@index([scheduledFor])
+  @@index([status])
+}
+
+enum ContentType {
+  BLOG_POST
+  SOCIAL_MEDIA
+  NEWSLETTER
+}
+
+enum Platform {
+  WEBSITE
+  FACEBOOK
+  TWITTER
+  LINKEDIN
+  INSTAGRAM
+  NEWSLETTER
+}
+
+enum PlanStatus {
+  IDEA
+  IN_PROGRESS
+  REVIEW
+  SCHEDULED
+  PUBLISHED
+}
