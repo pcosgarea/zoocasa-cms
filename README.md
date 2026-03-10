@@ -10,11 +10,13 @@ A summary of all work completed so far is stored in [`claude-code-checkpoint.md`
 
 If you just want to run the site, see [`SETUP.md`](./SETUP.md) for quick setup instructions.
 
+This file also has instructions for setting up your computer for development with Claude Code.
+
 ## Resuming Development with Claude Code
 
 To resume development using Claude Code, start a new Claude Code session, and then paste in this prompt:
 ```
-Can you please read `saved-claude-code-session.md` so that we can pick up where we left off in a previous session?
+Can you please read `claude-code-checkpoint.md` so that we can pick up where we left off in a previous session?
 
 Do not start implementing the next features right away. Instead, describe what you will do next, and ask for approval before proceeding.
 ```
