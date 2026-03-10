@@ -2,9 +2,13 @@
 
 A modern, full-featured content management system built with Next.js 15, designed to replace the existing WordPress blog at zoocasa.com/blog.
 
+This document outlines the "spec" for the Zoocasa CMS along with the Claude Code plan file, `plan.md`.
+
+A summary of all work completed so far is stored in `claude-code-checkpoint.md`, with a higher-level summary also in `progress.md` (see instructions below on resuming development with Claude Code).
+
 ## Setup
 
-For quick setup instructions, see `SETUP.md`.
+If you just want to run the site, see `SETUP.md` for quick setup instructions.
 
 ## Resuming Development with Claude Code
 

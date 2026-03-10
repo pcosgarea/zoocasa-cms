@@ -159,6 +159,7 @@ Let me chronologically analyze this extensive conversation about building a Zooc
 
 **Current Progress**
 - Completed Phase 8
+- Switched from Prisma to using Prisma for the ORM with Supabase PostgreSQL for the database
 - Next is adding a newsletter popup component for public site
 - After that is complete, we'll continue with the remaining phases documented in `plan.md` under the project's root
 
@@ -178,7 +179,7 @@ Summary:
 
 2. **Key Technical Concepts:**
    - **Next.js 15 App Router** with server/client components
-   - **Prisma ORM** with PostgreSQL (using Prisma Accelerate connection)
+   - **Prisma ORM** with Supabase PostgreSQL
    - **NextAuth v5 (Auth.js)** for authentication with credentials provider
    - **Tiptap v2** rich text editor with StarterKit
    - **Tailwind CSS** with CSS variables for dynamic theming
@@ -369,6 +370,7 @@ Summary:
    - Integrated Tiptap v2 rich text editor with full toolbar
    - Created complete CRUD API for blog posts
    - Currently troubleshooting: Editor formatting display (CSS styling issue)
+   - Switched to Prisma + Supabase PostgreSQL for the database
 
 6. **All User Messages:**
    1. Initial request to mirror Zoocasa blog and create CMS with detailed feature list
@@ -383,6 +385,10 @@ Summary:
    10. "No errors! Looks good. Let's keep building"
    11. "Rich text editor"
    12. "The headings, bullet points, numbered lists aren't working. It also gives me a 404 error when I try to save as draft"
+   13. "No, we'll continue that later. Before continuing, can you switch the website to use Supabase instead of Prisma for the database?"
+   14. "User has answered your questions: 'How would you like to integrate Supabase?'='Prisma + Supabase DB'. You can now continue with the user's answers in mind."
+   15. "Please proceed with the configuration. If you need any Supabase project information to continue, please ask for it."
+   16. "Okay, I've updated the connection strings"
 
 7. **Pending Tasks:**
    - Build remaining phases (Theme customization, Newsletter popup, Public blog pages, etc.)
@@ -394,6 +400,8 @@ Summary:
 
 Any other information is available in the `plan.md` file.
 
-From now on, please track your progress in a `progress.md` file that, just like this file, can be used along with `plan.md` to continue development in a new Claude Code session. After each step, update `progress.md` automatically.
+Please also read `progress.md` for a summary of the progress that was made in a previous Claude Code session.
 
-Please continue the conversation from where we left it off without asking the user any further questions. Continue with the last task that you were asked to work on.
+From now on, please continue to track your progress in `progress.md` which, along with this file and `plan.md`, can be used to continue development in a new Claude Code session. From now on, before prompting for user input, please `progress.md` automatically (except for the first prompt where you ask for approval to resume work).
+
+Please continue the conversation from where we left it off. Continue with the last task that you were asked to work on, but describe it and ask for approval before proceeding.
